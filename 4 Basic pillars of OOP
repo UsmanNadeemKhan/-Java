@@ -1,0 +1,97 @@
+// Encapsulation
+class Person {
+    private String name;
+    private int age;
+
+    // Constructor
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    // Getter and setter methods
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+    public int getAge() {
+        return age;
+    }
+
+}
+
+// Inheritance
+class Student extends Person {
+    private String studentId;
+
+    // Constructor
+    public Student(String name, int age, String studentId) {
+        super(name, age); // Call to superclass constructor
+        this.studentId = studentId;
+    }
+
+    // Getter and setter methods specific to Student
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+}
+
+// Polymorphism
+class Animal {
+    public void sound() {
+        System.out.println("Animal makes a sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    public void sound() {
+        System.out.println("Dog barks");
+    }
+}
+
+// Abstraction
+abstract class Shape {
+    abstract void draw(); // Abstract method
+}
+
+class Circle extends Shape {
+    @Override
+    void draw() {
+        System.out.println("Drawing Circle");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Encapsulation
+        Person person = new Person("John", 30);
+        System.out.println("Name: " + person.getName());
+        System.out.println("Age: " + person.getAge());
+
+        // Inheritance
+        Student student = new Student("Alice", 20, "S1234");
+        System.out.println("Student Name: " + student.getName());
+        System.out.println("Student Age: " + student.getAge());
+        System.out.println("Student ID: " + student.getStudentId());
+
+        // Polymorphism
+        Animal animal = new Dog();
+        animal.sound();
+
+        // Abstraction
+        Shape shape = new Circle();
+        shape.draw();
+    }
+}
