@@ -1,0 +1,50 @@
+
+
+// example of inheritance
+
+
+class cal {
+    int a;
+    int b;
+
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    public int sub(int a, int b) {
+        return a - b;
+    }
+}
+
+class advcal extends cal {
+    public int mul(int a, int b) {
+        System.out.println(add(a, b) * a * b);
+        return a * b;
+    }
+
+    public float div(float a, float b) {
+        System.out.println(sub(5, 10) / a / b * a);
+        return a / b;
+    }
+}
+
+class vadvcal extends advcal{
+    public double power(int a ,int b){
+        return Math.pow(a, b);
+    }
+}
+public class hello{
+    public static void main(String[] args){
+    vadvcal obj = new vadvcal();
+    int r1 = obj.add(4,7);
+    int r2 = obj.sub(5,7);
+
+    int r3 = obj.mul(4,7);
+    float r4 = obj.div(5,7);
+    double r5 = obj.power(5, 2);
+
+    System.out.println(r1 + " " + r2 + " " + r3 + " " + r4 + " " + r5);
+}    }
+
+
+
