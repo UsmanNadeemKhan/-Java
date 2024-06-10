@@ -1,0 +1,29 @@
+
+// we can change different classes using inheritance of same function 
+class a{
+    public void show(){
+    System.out.println("in class a");     
+    }
+}
+
+class b extends a{
+    public void show(){
+    System.out.println("in class b");
+}}
+
+class c extends b{
+    public void show(){
+        System.out.println("in class c");
+    }
+}
+public class hello{
+    public static void main(String[] args){
+    a obj = new a();
+    obj.show();
+
+    obj = new b();
+    obj.show();
+        
+    obj = new c();
+    obj.show();
+    }    }
