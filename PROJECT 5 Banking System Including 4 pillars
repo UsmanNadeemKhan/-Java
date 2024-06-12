@@ -1,0 +1,166 @@
+
+
+import java.util.Scanner;
+
+abstract class Account{
+    private String accountNumber;
+    protected double balance;
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    protected double getBalance() {
+        return balance;
+    }
+
+    protected void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public Account(String accountNumber, double balance) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+    }
+
+    public void deposit(double amount){
+       System.out.println("Your balance is " + (amount + balance));
+   }
+
+   public void withdraw(double amount){
+        if(amount < balance) {
+            System.out.println("Your new balance is " + (amount - balance));
+        }else {
+            System.out.println("Insufficient fund");
+        }
+   }
+
+   public abstract void displayDetails();
+
+}
+
+class SavingAcount extends Account {
+    Double interestRate;
+
+    public SavingAcount(String accountNumber, double balance, Double interestRate) {
+        super(accountNumber, balance);
+        this.interestRate = interestRate;
+    }
+
+    public void addInterest(){
+        System.out.println("Your new balance is " + (getBalance() * (1+interestRate/100)));
+    }
+
+
+    @Override
+    public void displayDetails() {
+        System.out.println("Your interest rate is " + interestRate);
+        System.out.println("Your balance is " + getBalance());
+
+    }
+}
+
+class CheckingAccount extends Account{
+    Double transactionFee;
+
+    public CheckingAccount(String accountNumber, double balance, Double transactionFee) {
+        super(accountNumber, balance);
+        this.transactionFee = transactionFee;
+    }
+
+
+    @Override
+    public void displayDetails() {
+        System.out.println("Transaction fees is " + transactionFee);
+        System.out.println("Your balance is " + getBalance());
+
+    }
+
+    @Override
+    public void withdraw(double amount) {
+        super.withdraw(amount);
+        setBalance(getBalance() - transactionFee);
+        System.out.println("Your amount after deduction is " + getBalance());
+    }
+}
+
+class BusinessAccount extends Account{
+    Double overdraftLimit;
+
+    public BusinessAccount(String accountNumber, double balance, Double overdraftLimit) {
+        super(accountNumber, balance);
+        this.overdraftLimit = overdraftLimit;
+    }
+
+    @Override
+    public void displayDetails() {
+        System.out.println("Your balance is " + getBalance());
+        System.out.println("Your overdraft limit is " + overdraftLimit);
+    }
+
+    @Override
+    public void withdraw(double amount) {
+        balance = balance + overdraftLimit;
+        System.out.println("Withdraw " + (amount - balance));
+    }
+
+
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Enter account number");
+        String accountNumber = sc.next();
+        System.out.println("Enter balance");
+        Double balance = sc.nextDouble();
+
+        System.out.println("Press 1 For  Saving Account ");
+        System.out.println("Press 2 for Checking Account ");
+        System.out.println("Press 3 for Bussiness Account ");
+        Integer option = sc.nextInt();
+
+
+
+        switch (option){
+            case 1:
+                System.out.println("Enter interest rate");
+                Double interestRate = sc.nextDouble();
+
+                System.out.println("Enter amount to withdraw");
+                Double amount = sc.nextDouble();
+
+
+
+                SavingAcount savingAcount = new SavingAcount(accountNumber,balance,interestRate);
+
+                break;
+
+                case 2:
+                    System.out.println("Enter Transaction fees ");
+                    Double transactionFee = sc.nextDouble();
+
+                    CheckingAccount checkingAccount = new CheckingAccount(accountNumber,balance,transactionFee);
+                    break;
+
+            case 3:
+                System.out.println("Enter overdraft limit ");
+                Double overdraftlimit = sc.nextDouble();
+
+                break;
+
+            default:
+                System.out.println("Enter invalid number");
+                break;
+
+        }
+
+
+    }
+}
+
