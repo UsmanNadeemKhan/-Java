@@ -1,0 +1,55 @@
+
+
+import java.util.Scanner;
+
+class Teacher {
+    public String name;
+    public static String position = "assistant teacher";
+    public Integer salary;
+
+    public Teacher(String name, Integer salary) {
+        this.name = name;
+        this.salary = salary;
+    }
+
+    public void displayDetails() {
+        System.out.println("Name: " + name + ", Salary: " + salary + ", Position: " + position);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Ask the user for the number of teachers
+        System.out.print("Enter the number of teachers: ");
+        int numTeachers = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
+
+        // Create an array to store the teachers
+        Teacher[] teachers = new Teacher[numTeachers];
+
+        // Ask for details of each teacher and create instances
+        for (int i = 0; i < numTeachers; i++) {
+            System.out.println("\nEnter details for Teacher " + (i + 1) + ":");
+            System.out.print("Name: ");
+            String name = scanner.nextLine();
+            System.out.print("Salary: ");
+            int salary = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character
+
+            // Create a new Teacher object and store it in the array
+            teachers[i] = new Teacher(name, salary);
+        }
+
+        // Display details of all teachers
+        System.out.println("\nDetails of all teachers:");
+        for (Teacher teacher : teachers) {
+            teacher.displayDetails();
+        }
+
+        // Close the scanner
+        scanner.close();
+    }
+}
+
