@@ -1,0 +1,203 @@
+
+
+
+import java.util.Scanner;
+interface FoodOrder {
+    void showMenu();
+}
+class Menu implements FoodOrder{
+    public void showMenu() {
+        System.out.println("PRESS 1 FOR FULL SIZE CALZONE--RS 800");
+        System.out.println("PRESS 2 FOR KHAUSEY--RS 1050");
+        System.out.println("PRESS 3 FOR MEDIUM 10 INCH PIZZA--RS 850");
+        System.out.println("PRESS 4 FOR LARGE 12 INCH PIZZA--RS 1200");
+        System.out.println("PRESS 5 FOR BEEF BURGER--RS 1100");
+        System.out.println("PRESS 6 FOR CHICKEN MUSHROOM PASTA--RS 1150");
+        System.out.println("PRESS 7 FOR MUTTON KARAHI--RS 1400");
+
+        Scanner sc = new Scanner(System.in);
+        Integer option = sc.nextInt();
+
+        System.out.println("Your Order has been placed.");
+        System.out.println("Delivered at your location in 30 mins");
+    }
+
+    public void dealMenu(){
+        System.out.println("DEAL 1: 1 Extra LARGE CALZONE --RS 1000");
+        System.out.println("DEAL 2: 1 LARGE BOWL OF KHAUSEY AND 1 Extra LARGE PIZZA WITH FREE CHICKEN MUSHROOM PASTA --RS 3000");
+        System.out.println("DEAL 3: 4 LARGE PIZZA WITH 2 LARGE FREE PIZZA --RS 5000");
+        System.out.println("");
+    }
+}
+
+class Deals extends Menu{
+    private Integer deal1 = 1000;
+    private Integer deal2 = 3000;
+    private Integer deal3 = 5000;
+
+    @Override
+    public void dealMenu(){
+        System.out.println("PRESS 1 FOR DEAL 1: 1 Extra LARGE CALZONE --RS 1000");
+        System.out.println("PRESS 2 FOR DEAL 2: 1 LARGE BOWL OF KHAUSEY AND 1 Extra LARGE PIZZA WITH FREE CHICKEN MUSHROOM PASTA --RS 3000");
+        System.out.println("PRESS 3 FOR DEAL 3: 4 LARGE PIZZA WITH 2 LARGE FREE PIZZA --RS 5000");
+        System.out.println("");
+    }
+    public void showDeals() {
+        Scanner sc = new Scanner(System.in);
+        dealMenu();
+
+        Integer option = sc.nextInt();
+        sc.nextLine(); // Consume the newline character left by nextInt
+
+        int maxUsers = 12;
+        String[] names = new String[maxUsers];
+        int[] ages = new int[maxUsers];
+        int[] quantities = new int[maxUsers];
+        int index = 0;
+
+        switch (option) {
+            case 1:
+                Integer count_for_d1 = 10;
+                while (count_for_d1 > 0) {
+                    if (index >= maxUsers) {
+                        System.out.println("Maximum user limit reached.");
+                        break;
+                    }
+                    System.out.println("1 slice of pizza cost RS--100");
+                    System.out.println("Enter details for user " + (index + 1) + ":");
+                    System.out.print("Name: ");
+                    names[index] = sc.nextLine();
+                    System.out.print("Age: ");
+                    ages[index] = sc.nextInt();
+                    System.out.print("How many slices do you want: ");
+                    quantities[index] = sc.nextInt();
+                    count_for_d1 = count_for_d1 - quantities[index];
+                    System.out.println(count_for_d1 + " are left");
+                    sc.nextLine(); // Consume the newline character left by nextInt
+                    index++;
+
+                }
+                break;
+
+            case 2:
+                Integer count_for_d2 = 10;
+                while (count_for_d2 > 0) {
+                    if (index >= maxUsers) {
+                        System.out.println("Maximum user limit reached.");
+                        break;
+                    }
+                    System.out.println("1 slice of pizza, 1 portion of khausey and 1 portion of chicken mushroom pasta cost RS--300");
+                    System.out.println("Enter details for user " + (index + 1) + ":");
+                    System.out.print("Name: ");
+                    names[index] = sc.nextLine();
+                    System.out.print("Age: ");
+                    ages[index] = sc.nextInt();
+                    System.out.print("How many quantity do you want: ");
+                    quantities[index] = sc.nextInt();
+                    count_for_d2 = count_for_d2 - quantities[index];
+                    System.out.println(count_for_d2 + " are left");
+                    sc.nextLine(); // Consume the newline character left by nextInt
+                    index++;
+                }
+                break;
+
+            case 3:
+                Integer count_for_d3 = 10;
+                while (count_for_d3 > 0) {
+                    if (index >= maxUsers) {
+                        System.out.println("Maximum user limit reached.");
+                        break;
+                    }
+                    System.out.println("6 cost RS--500");
+                    System.out.println("Enter details for user " + (index + 1) + ":");
+                    System.out.print("Name: ");
+                    names[index] = sc.nextLine();
+                    System.out.print("Age: ");
+                    ages[index] = sc.nextInt();
+                    System.out.print("How many slices do you want: ");
+                    quantities[index] = sc.nextInt();
+                    count_for_d3 = count_for_d3 - quantities[index];
+                    System.out.println(count_for_d3 + " are left");
+                    sc.nextLine(); // Consume the newline character left by nextInt
+                    index++;
+                }
+                break;
+
+            default:
+                System.out.println("Invalid option");
+                break;
+        }
+
+        System.out.println("User details:");
+        for (int i = 0; i < index; i++) {
+            System.out.println("Name: " + names[i] + ", Age: " + ages[i] + ", Quantity: " + quantities[i]);
+        }
+    }
+}
+
+public class real{
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Menu menu = new Menu();
+        Deals deals = new Deals();
+
+        System.out.println("WELCOME TO UMEED FOUNDATION");
+        System.out.println();
+        System.out.println("Press 1 for Gulistan-e-Johar");
+        System.out.println("Press 2 for Clifton");
+        System.out.println("Press 3 for Malir");
+        System.out.println("Press 4 to exit the program");
+        Integer location = sc.nextInt();
+
+        switch (location) {
+            case 1:
+                System.out.println("Welcome to Gulistan-e-Johar");
+                System.out.println("Do you want to order individually or in a pool");
+                System.out.println("Press 1 for individually / Press 2 for pool");
+                Integer option = sc.nextInt();
+                if (option == 1) {
+                    menu.showMenu();
+                } else if (option == 2) {
+                    deals.showDeals();
+                } else {
+                    System.out.println("Invalid option");
+                }
+                break;
+            case 2:
+                System.out.println("Welcome to Clifton");
+                System.out.println("Do you want to order individually or in a pool");
+                System.out.println("Press 1 for individually / Press 2 for pool");
+                option = sc.nextInt();
+                if (option == 1) {
+                    menu.showMenu();
+                } else if (option == 2) {
+                    deals.showDeals();
+                } else {
+                    System.out.println("Invalid option");
+                }
+                break;
+
+            case 3:
+                System.out.println("Welcome to Malir");
+                System.out.println("Do you want to order individually or in a pool");
+                System.out.println("Press 1 for individually / Press 2 for pool");
+                option = sc.nextInt();
+                if (option == 1) {
+                    menu.showMenu();
+                } else if (option == 2) {
+                    deals.showDeals();
+                } else {
+                    System.out.println("Invalid option");
+                }
+                break;
+            case 4:
+                System.exit(0);
+            default:
+                System.out.println("Invalid option chosen");
+                break;
+        }
+
+        sc.close();
+    }
+}
+
