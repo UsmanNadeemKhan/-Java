@@ -1,0 +1,143 @@
+class Animal{
+    public String name;
+    public String specie;
+    public Integer age;
+
+    public String getName() {
+        if (name == null) {
+            return "Name not set";
+        }
+        return name;
+    }
+
+    public void setName(String name) {
+        if (name.length()>4){
+            this.name = name;
+        }
+        else{
+            System.out.println("Name should be greater than 4 characters");
+        }
+    }
+
+    public String getSpecie() {
+        if (specie == null) {
+            return "Specie not set";
+        }
+        return specie;
+    }
+
+    public void setSpecie(String specie) {
+        if(specie.length()>4) {
+            this.specie = specie;
+        }
+        else{
+            System.out.println("Species should be greator than 4 character");
+        }
+    }
+
+    public Integer getAge() {
+        if (age == null) {
+            return null;
+        }
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        if(age>0) {
+            this.age = age;
+        }
+        else{
+            System.out.println("Age can't be negative");
+        }
+    }
+
+    public Animal(String name, String specie, Integer age) {
+        this.setName(name);
+        this.setSpecie(specie);
+        this.setAge(age);
+    }
+
+    public void displayInfo(){
+        System.out.println("Name: " + name + "      Specie: " + specie + "       Age: " + age);
+    }
+}
+class Dog extends Animal{
+    public Integer legs;
+    public Integer getLegs() {
+        if(legs==null) {
+            return null;
+        }
+        return legs;
+    }
+    public void setLegs(Integer legs) {
+        if (legs>0){
+            this.legs = legs;
+        }
+        else{
+            System.out.println("Number entered can't be entered!");
+        }
+
+    }
+    public Dog(String name, String specie, Integer age, Integer legs) {
+        super(name, specie, age);
+        this.setLegs(legs);
+    }
+    public void legsInfo(){
+        System.out.println("Dog has " + legs + " legs");
+    }
+}
+
+class Snake extends Animal{
+    public Integer size;
+    public Integer getSize() {
+        if (size == null) {
+            return null;
+        }
+        return size;
+    }
+    public void setSize(Integer size) {
+        this.size = size;
+    }
+    public Snake(String name, String specie, Integer age, Integer size) {
+        super(name, specie, age);
+        this.setSize(size);
+    }
+
+    public void sizeInfo() {
+        System.out.println("Snake is " + size + " meters long.");
+    }
+}
+
+class Pigeon extends Animal{
+    public Integer wings;
+    public Integer getWings() {
+        if (wings == null) {
+            return null;
+        }
+        return wings;
+    }
+    public void setWings(Integer wings) {
+        this.wings = wings;
+    }
+    public Pigeon(String name, String specie, Integer age, Integer wings) {
+        super(name, specie, age);
+        this.setWings(wings);
+    }
+    public void wingsInfo(){
+        System.out.println("Pigeon has " + wings + " wings.");
+    }
+}
+public class real {
+    public static void main(String[] args) {
+        Dog dog = new Dog("Joeyr","Mammal",2,4);
+        Snake snake = new Snake("Shelby","Reptile",1,8);
+        Pigeon pigeon = new Pigeon("Sweety","Bird",5,2);
+
+        dog.displayInfo();
+        dog.legsInfo();
+        snake.displayInfo();
+        snake.sizeInfo();
+        pigeon.displayInfo();
+        pigeon.wingsInfo();
+    }
+}
