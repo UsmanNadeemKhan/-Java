@@ -1,0 +1,87 @@
+
+
+import java.util.Scanner;
+
+class Employee{
+    String name;
+
+    public Employee(String name) {
+        this.name = name;
+    }
+
+    public void getDetail(){
+        System.out.println(name + " is an employee");
+    }
+}
+
+class Manager extends Employee{
+    String department;
+
+
+    public Manager(String name,String department) {
+        super(name);
+        this.department = department;
+    }
+
+    @Override
+    public void getDetail() {
+        super.getDetail();
+        System.out.println(name + " is a manager in " + department );
+    }
+}
+
+class Director extends Manager{
+    double budget;
+
+    public Director(String name, String department, double budget) {
+        super(name, department);
+        this.budget = budget;
+    }
+
+    @Override
+    public void getDetail() {
+        super.getDetail();
+        System.out.println(name + " is a director of " + department + " with a budget of " + budget);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Enter no employ ");
+        Scanner sc = new Scanner(System.in);
+        Integer n = sc.nextInt();
+
+        Employee[] employees = new Employee[n];
+        Manager[] managers = new Manager[n];
+        Director[] directors = new Director[n];
+
+        for (int i = 0; i < n; i++) {
+            System.out.println("Enter name of an Employee");
+            String employeeName = sc.next();
+            employees[i] = new Employee(employeeName);
+            System.out.println("Enter name of the manager");
+            String managerName = sc.next();
+            System.out.println("Enter department of the manager ");
+            String managerDepartment = sc.next();
+            managers[i] = new Manager(managerName,managerDepartment);
+            System.out.println("Enter name of the director");
+            String directorName = sc.next();
+            System.out.println("Enter department of the director ");
+            String directorDepartment = sc.next();
+            System.out.println("Enter budget of the director");
+            double budget = sc.nextDouble();
+            directors[i] = new Director(directorName,directorDepartment,budget);
+
+
+        }
+        for (int i = 0; i < n; i++) {
+            employees[i].getDetail();
+            managers[i].getDetail();
+            directors[i].getDetail();
+        }
+
+
+    }
+}
+
+
