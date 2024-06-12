@@ -1,0 +1,96 @@
+
+
+import java.util.List;
+import java.util.Scanner;
+
+class ATM {
+    Integer pin = 7186;
+    Float balance = 1000f;
+
+    public void checkpin(){
+
+        System.out.println("Enter your pin");
+        Scanner sc = new Scanner(System.in);
+        int enteredpin = sc.nextInt();
+
+        if(enteredpin == pin){
+            System.out.println("welcome to your account");
+            menu();
+        }
+        else {
+            System.out.println("Enter valid pin");
+            checkpin();
+        }
+
+        sc.close();
+
+    }
+
+    public void menu(){
+        System.out.println("Choose an option");
+        System.out.println("1 for check balance");
+        System.out.println("2 for withdraw money");
+        System.out.println("3 for deposit monry");
+        System.out.println("4 for exit");
+
+        Scanner sc = new Scanner(System.in);
+        int opt = sc.nextInt();
+
+
+        if (opt == 1) {
+            checkbalance();
+
+        }else if(opt == 2) {
+            withdraw();
+        }
+
+        else if(opt == 3) {
+            deposit();
+        }
+
+        else if(opt == 4) {
+            return;
+        }
+
+        else{
+            System.out.println("Enter an valid number");
+        }
+    }
+
+    public void checkbalance(){
+        System.out.println("Your balance is " + balance);
+        menu();
+    }
+
+    public void withdraw(){
+        System.out.println("Enter amount to withdraw");
+        Scanner sc = new Scanner(System.in);
+        Float withdraw_amount = sc.nextFloat();
+        if(withdraw_amount <= balance){
+            balance = balance - withdraw_amount;
+        }else{
+            System.out.println("insufficient balance");
+        }
+        menu();
+    }
+
+    public void deposit(){
+        System.out.println("Enter amount to deposit");
+        Scanner sc = new Scanner(System.in);
+
+        Float deposit_amount = sc.nextFloat();
+
+        balance = balance + deposit_amount;
+        System.out.println("Your new balance is " + balance);
+        menu();
+    }
+}
+public class Main
+{
+    public static void main(String[] args) {
+
+        ATM atm = new ATM();
+        atm.checkpin();
+
+    }
+}
