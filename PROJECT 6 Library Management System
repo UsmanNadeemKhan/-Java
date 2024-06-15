@@ -1,0 +1,308 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+abstract class Abstraction {
+    public abstract String getTitle();
+    public abstract void markAsAvailable();
+    public abstract String editBook(String title, String author, String genre) throws Exception;
+}
+
+class Book extends Abstraction {
+    private String title;
+    private String author;
+    private String genre;
+    private boolean isAvailable;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) throws Exception {
+        if (title.length() < 20) {
+            this.title = title;
+        } else {
+            throw new Exception("Title should be less than 20 characters");
+        }
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) throws Exception {
+        if (author.length() < 20) {
+            this.author = author;
+        } else {
+            throw new Exception("Author name should be less than 20 characters");
+        }
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) throws Exception {
+        if (genre.length() < 20) {
+            this.genre = genre;
+        } else {
+            throw new Exception("Genre should be less than 20 characters");
+        }
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
+    @Override
+    public void markAsAvailable() {
+        if (isAvailable) {
+            System.out.println("Yes, it is available.");
+        } else {
+            System.out.println("Sorry, it is not available.");
+        }
+    }
+
+    public void markAsUnavailable() {
+        if (!isAvailable) {
+            System.out.println("Sorry, not available.");
+        }
+    }
+
+    @Override
+    public String editBook(String title, String author, String genre) throws Exception {
+        setTitle(title);
+        setAuthor(author);
+        setGenre(genre);
+        return "Book details updated";
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", genre='" + genre + '\'' +
+                ", isAvailable=" + isAvailable +
+                '}';
+    }
+}
+
+class Library {
+    private ArrayList<Book> books = new ArrayList<>();
+
+    public void addBook(Book book) {
+        books.add(book);
+        System.out.println("Added successfully");
+    }
+
+    public void removeBook(Book book) {
+        books.remove(book);
+        System.out.println("Removed successfully");
+    }
+
+    public void editBook(int index, String title, String author, String genre) throws Exception {
+        Book book = books.get(index);
+        book.editBook(title, author, genre);
+        books.set(index, book);
+    }
+
+    public void searchByTitle(String title) {
+        for (Book book : books) {
+            if (title.equals(book.getTitle())) {
+                System.out.println("Yes, it is available");
+                System.out.println(book);
+                return;
+            }
+        }
+        System.out.println("Not available");
+    }
+
+    public void searchByAuthor(String author) {
+        for (Book book : books) {
+            if (author.equals(book.getAuthor())) {
+                System.out.println("Yes, it is available");
+                System.out.println(book);
+                return;
+            }
+        }
+        System.out.println("Not available");
+    }
+
+    public ArrayList<Book> getBooks() {
+        return books;
+    }
+
+    @Override
+    public String toString() {
+        return "Library{" +
+                "books=" + books +
+                '}';
+    }
+}
+
+class User {
+    private String username;
+    private String email;
+    private Library library = new Library();
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void createLibrary() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter your name");
+        String name = sc.next();
+        this.username = name;
+        System.out.println("Account is created by name " + name);
+    }
+
+    public void deleteLibrary() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter your name to delete account");
+        String name = sc.next();
+        if (this.username.equals(name)) {
+            this.library = null;
+            System.out.println("Account is deleted by name " + name);
+        } else {
+            System.out.println("Name does not match with account holder");
+        }
+    }
+
+    public void addBookToLibrary(Book book) {
+        library.addBook(book);
+    }
+
+    public void removeBookFromLibrary(Book book) {
+        library.removeBook(book);
+    }
+
+    public void editBookInLibrary(int index, String title, String author, String genre) throws Exception {
+        library.editBook(index, title, author, genre);
+    }
+
+    public void searchBookByTitle(String title) {
+        library.searchByTitle(title);
+    }
+
+    public void searchBookByAuthor(String author) {
+        library.searchByAuthor(author);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", library=" + library +
+                '}';
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        User user = new User();
+        Library library = new Library();
+
+        while (true) {
+            System.out.println("\n--- Library Menu ---");
+            System.out.println("1. Create Library Account");
+            System.out.println("2. Delete Library Account");
+            System.out.println("3. Add Book to Library");
+            System.out.println("4. Remove Book from Library");
+            System.out.println("5. Edit Book in Library");
+            System.out.println("6. Search Book by Title");
+            System.out.println("7. Search Book by Author");
+            System.out.println("8. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    user.createLibrary();
+                    break;
+                case 2:
+                    user.deleteLibrary();
+                    break;
+                case 3:
+                    try {
+                        Book newBook = new Book();
+                        System.out.print("Enter book title: ");
+                        String title = scanner.next();
+                        newBook.setTitle(title);
+                        System.out.print("Enter book author: ");
+                        String author = scanner.next();
+                        newBook.setAuthor(author);
+                        System.out.print("Enter book genre: ");
+                        String genre = scanner.next();
+                        newBook.setGenre(genre);
+                        newBook.setAvailable(true);
+                        user.addBookToLibrary(newBook);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 4:
+                    System.out.print("Enter the index of the book to remove: ");
+                    int removeIndex = scanner.nextInt();
+                    if (removeIndex < library.getBooks().size()) {
+                        user.removeBookFromLibrary(library.getBooks().get(removeIndex));
+                    } else {
+                        System.out.println("Invalid index");
+                    }
+                    break;
+                case 5:
+                    System.out.print("Enter the index of the book to edit: ");
+                    int editIndex = scanner.nextInt();
+                    if (editIndex < library.getBooks().size()) {
+                        try {
+                            System.out.print("Enter new book title: ");
+                            String newTitle = scanner.next();
+                            System.out.print("Enter new book author: ");
+                            String newAuthor = scanner.next();
+                            System.out.print("Enter new book genre: ");
+                            String newGenre = scanner.next();
+                            user.editBookInLibrary(editIndex, newTitle, newAuthor, newGenre);
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                    } else {
+                        System.out.println("Invalid index");
+                    }
+                    break;
+                case 6:
+                    System.out.print("Enter book title to search: ");
+                    String searchTitle = scanner.next();
+                    user.searchBookByTitle(searchTitle);
+                    break;
+                case 7:
+                    System.out.print("Enter book author to search: ");
+                    String searchAuthor = scanner.next();
+                    user.searchBookByAuthor(searchAuthor);
+                    break;
+                case 8:
+                    System.out.println("Exiting...");
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}
