@@ -1,0 +1,91 @@
+import java.util.Scanner;
+
+abstract class Vehicle {
+    Integer no_of_seat;
+    public abstract void isComercial();
+    public abstract void getFuelEfficiency();
+    public void getSeat() {
+        System.out.println("Number of seats: " + no_of_seat);
+    }
+}
+
+class Truck extends Vehicle {
+    Integer fuelEfficiency;
+    Integer noSeat;
+    public Truck(Integer fuelEfficiency, Integer noSeat) {
+        this.fuelEfficiency = fuelEfficiency;
+        this.noSeat = noSeat;
+    }
+    @Override
+    public void getFuelEfficiency() {
+        System.out.println("Truck Fuel Efficiency: " + fuelEfficiency);
+    }
+    @Override
+    public void isComercial() {
+        System.out.println("Truck is a commercial vehicle");
+    }
+}
+
+class Sedan extends Vehicle {
+    Integer fuelEfficiency;
+    Integer noSeat;
+    public Sedan(Integer fuelEfficiency, Integer noSeat) {
+        this.fuelEfficiency = fuelEfficiency;
+        this.noSeat = noSeat;
+    }
+    @Override
+    public void getFuelEfficiency() {
+        System.out.println("Sedan Fuel Efficiency: " + fuelEfficiency);
+    }
+    @Override
+    public void isComercial() {
+        System.out.println("Sedan is not a commercial vehicle");
+    }
+}
+
+class Motorcycle extends Vehicle {
+    Integer fuelEfficiency;
+    Integer noSeat;
+    public Motorcycle(Integer fuelEfficiency, Integer noSeat) {
+        this.fuelEfficiency = fuelEfficiency;
+        this.noSeat = noSeat;
+    }
+    @Override
+    public void getFuelEfficiency() {
+        System.out.println("Motorcycle Fuel Efficiency: " + fuelEfficiency);
+    }
+    @Override
+    public void isComercial() {
+        System.out.println("Motorcycle is not a commercial vehicle");
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Truck truck = new Truck(15, 2);
+        Sedan sedan = new Sedan(25, 6);
+        Motorcycle motorcycle = new Motorcycle(45, 2);
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter 0 for Truck, 1 for Sedan, 2 for Motorcycle:");
+        Integer no = sc.nextInt();
+
+        switch (no) {
+            case 0:
+                truck.getFuelEfficiency();
+                truck.isComercial();
+                break;
+            case 1:
+                sedan.getFuelEfficiency();
+                sedan.isComercial();
+                break;
+            case 2:
+                motorcycle.getFuelEfficiency();
+                motorcycle.isComercial();
+                break;
+            default:
+                System.out.println("Invalid option");
+                break;
+        }
+    }
+}
