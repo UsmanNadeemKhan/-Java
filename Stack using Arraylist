@@ -1,0 +1,42 @@
+import java.util.ArrayList;
+
+class Stack{
+    ArrayList<Integer> list = new ArrayList<Integer>();
+
+    public void push(Integer data){
+      list.add(data);
+    }
+
+    public void pop(){
+        if(list.size() == 0){
+            System.out.println("list is empty");
+        }else {
+            int top = list.size();
+            list.remove(top - 1);
+        }
+    }
+
+    public void peek(){
+        System.out.println(list.getLast());
+    }
+
+    public void show(){
+        for (int n:list) {
+            System.out.println(n + " ");
+        }
+    }
+
+}
+
+
+
+public class Main {
+    public static void main(String[] args) {
+        Stack stack = new Stack();
+        stack.push(1);
+        stack.push(2);
+        stack.pop();
+        stack.peek();
+
+    }
+}
