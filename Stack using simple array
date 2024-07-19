@@ -1,0 +1,55 @@
+
+
+class Stack{
+
+
+    int stack[] = new int[5];
+    int top = 0;
+
+    public void push(int data){
+        if(stack.length == top) {
+            System.out.println("Stack is full");
+        }else {
+            stack[top] = data;
+            top++;
+        }
+    }
+    public void pop() {
+        if (isEmpty()) {
+            System.out.println("Stack is empty");
+        } else {
+            top--;
+            stack[top] = 0;
+        }
+    }
+
+    public boolean isEmpty(){
+        return top == 0;
+    }
+
+    public void show(){
+        for (int n : stack) {
+            System.out.println(n +  " ");
+        }
+    }
+
+    public void peek(){
+        if(isEmpty()){
+            System.out.println("Stack is Empty");
+        }else {
+        int data;
+        data = stack[top - 1];
+        System.out.println("Top element is " + data);
+        }
+    }
+
+}
+
+
+public class Main {
+    public static void main(String[] args) {
+        Stack stack = new Stack();
+        stack.peek();
+
+    }
+}
