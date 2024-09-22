@@ -1,0 +1,97 @@
+import java.util.*;
+
+abstract class Library_item{
+    public String title;
+    public String author;
+    protected Integer publicationYear;
+    private Integer uniqueID;
+
+    public Integer getUniqueID() {
+        return uniqueID;
+    }
+
+    public void setUniqueID(Integer uniqueID) {
+        this.uniqueID = uniqueID;
+    }
+
+    public Library_item(String title, String author, Integer publicationYear) {
+        this.title = title;
+        this.author = author;
+        this.publicationYear = publicationYear;
+    }
+
+    public abstract void displayInfo();
+}
+class Book extends Library_item{
+    private boolean isFiction;
+
+    public Book(String title, String author, Integer publicationYear, boolean isFiction, Integer uniqueID) {
+        super(title, author, publicationYear);
+        this.isFiction = isFiction;
+        this.setUniqueID(uniqueID);
+    }
+
+    public void getBookType(){
+        if(isFiction) {
+            System.out.println("The book is Fiction. ");
+        }else{
+            System.out.println("This book is Non-Fiction. ");
+        }
+    }
+    @Override
+    public void displayInfo() {
+        System.out.println("Book title: " + title + "   Author name: " + author + "     Publication year: " + publicationYear + "   Unique ID: " + getUniqueID());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Integer number= null;
+        try {
+            System.out.println("Enter the number of Books you want to enter:");
+            number = scanner.nextInt();
+            scanner.nextLine();
+        }catch (InputMismatchException e){
+            System.out.println(e);
+        }
+
+        Book[] books = new Book[number];
+
+        for (int i = 0; i < number; i++) {
+            System.out.println("Entering Book " + (i+1) + " information:");
+
+            System.out.print("Enter title of the book: ");
+            String title = scanner.nextLine();
+
+            System.out.print("Enter author of the book: ");
+            String author = scanner.nextLine();
+
+            System.out.print("Enter unique ID of the book: ");
+            Integer uniqueID = scanner.nextInt();
+
+            System.out.print("Enter publication year of the book: ");
+            Integer publicationyear = scanner.nextInt();
+            scanner.nextLine();
+
+            System.out.print("Is the book Fiction (yes/no): ");
+            String fictionInput = scanner.nextLine();
+            boolean isFiction = fictionInput.equalsIgnoreCase("yes");
+
+            books[i] = new Book(title, author, publicationyear, isFiction, uniqueID);
+
+        }
+        scanner.nextLine();
+
+        for (int i = 0; i < number; i++) {
+            books[i].displayInfo();
+            books[i].getBookType();
+        }
+        scanner.close();
+
+
+
+
+
+    }
+}
