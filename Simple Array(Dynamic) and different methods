@@ -1,0 +1,318 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+class Array {
+    Integer index = 0;
+    Integer dynamic = 2;
+    Integer[] arrays = new Integer[dynamic];
+
+    public void insert(Integer number) {
+        if (index == dynamic) {
+            resize();
+        }
+        arrays[index] = number;
+        index++;
+    }
+
+    public void resize() {
+        dynamic = dynamic * 2;
+        Integer[] newarray = new Integer[dynamic];
+
+        for (int i = 0; i < index; i++) {
+            newarray[i] = arrays[i];
+        }
+
+        arrays = newarray;
+    }
+
+    public void printArray() {
+        for (int i = 0; i < index; i++) {
+            System.out.print(arrays[i] + " ");
+        }
+        System.out.println();
+    }
+
+    public void remove(Integer indexvalue) {
+        if (indexvalue < 0 || indexvalue >= index) {
+            System.out.println("Invalid index");
+            return;
+        }
+        for (int i = indexvalue; i < this.index - 1; i++) {
+            arrays[i] = arrays[i + 1];
+        }
+        arrays[this.index - 1] = null;
+        this.index--;
+    }
+
+    public void search(Integer element) {
+        boolean found = false;
+        for (int i = 0; i < index; i++) {
+            if (arrays[i].equals(element)) {
+                System.out.println("Element " + element + " found at index " + i);
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            System.out.println("Element " + element + " not found in the array.");
+        }
+    }
+
+    public void replace(Integer old_value, Integer new_value) {
+        for (int i = 0; i < index; i++) {
+            if (arrays[i].equals(old_value)) {
+                arrays[i] = new_value;
+            }
+        }
+    }
+
+    public void max() {
+        if (index == 0) {
+            System.out.println("Array is empty");
+            return;
+        }
+        Integer max = arrays[0];
+        for (int i = 1; i < index; i++) {
+            if (arrays[i] > max) {
+                max = arrays[i];
+            }
+        }
+        System.out.println(max);
+    }
+
+    public void min() {
+        if (index == 0) {
+            System.out.println("Array is empty");
+            return;
+        }
+        Integer min = arrays[0];
+        for (int i = 1; i < index; i++) {
+            if (arrays[i] < min) {
+                min = arrays[i];
+            }
+        }
+        System.out.println(min);
+    }
+
+    public void product() {
+        Integer product = 1;
+        for (int i = 0; i < index; i++) {
+            product *= arrays[i];
+        }
+        System.out.println(product);
+    }
+
+    public void average() {
+        if (index == 0) {
+            System.out.println("Array is empty");
+            return;
+        }
+        Integer sum = 0;
+        for (int i = 0; i < index; i++) {
+            sum += arrays[i];
+        }
+        double avg = (double) sum / index;
+        System.out.println(avg);
+    }
+
+    public void reverse() {
+        Integer left = 0;
+        Integer right = index - 1;
+
+        while (left < right) {
+            Integer temp = arrays[left];
+            arrays[left] = arrays[right];
+            arrays[right] = temp;
+            left++;
+            right--;
+        }
+    }
+
+    public void even() {
+        System.out.println("Even Numbers:");
+        for (int i = 0; i < index; i++) {
+            if (arrays[i] % 2 == 0) {
+                System.out.print(arrays[i] + " ");
+            }
+        }
+        System.out.println();
+    }
+
+    public void odd() {
+        System.out.println("Odd Numbers:");
+        for (int i = 0; i < index; i++) {
+            if (arrays[i] % 2 != 0) {
+                System.out.print(arrays[i] + " ");
+            }
+        }
+        System.out.println();
+    }
+
+    public void prime() {
+        System.out.println("Prime numbers:");
+        for (int i = 0; i < index; i++) {
+            if (isprime(arrays[i])) {
+                System.out.println(arrays[i] + " ");
+            }
+        }
+    }
+
+    public boolean isprime(Integer number) {
+        if (number <= 1) return false;
+        for (int i = 2; i <= Math.sqrt(number); i++) {
+            if (number % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void distinct() {
+        System.out.println("Distinct Numbers:");
+        for (int i = 0; i < index; i++) {
+            boolean isDistinct = true;
+            for (int j = 0; j < index; j++) {
+                if (i != j && arrays[i].equals(arrays[j])) {
+                    isDistinct = false;
+                    break;
+                }
+            }
+            if (isDistinct) {
+                System.out.print(arrays[i] + " ");
+            }
+        }
+        System.out.println();
+    }
+
+    public void common_number(Array array2) {
+        System.out.println("Common Numbers between Array 1 and Array 2:");
+        for (int i = 0; i < index; i++) {
+            for (int j = 0; j < array2.index; j++) {
+                if (arrays[i].equals(array2.arrays[j])) {
+                    System.out.print(arrays[i] + " ");
+                    break;
+                }
+            }
+        }
+        System.out.println();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Array array1 = new Array();
+        Array array2 = new Array();
+
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+
+        while (running) {
+            System.out.println("Choose an option:");
+            System.out.println("1. Insert into Array 1");
+            System.out.println("2. Insert into Array 2");
+            System.out.println("3. Print Array 1");
+            System.out.println("4. Print Array 2");
+            System.out.println("5. Find Max in Array 1");
+            System.out.println("6. Find Min in Array 1");
+            System.out.println("7. Find Product of Array 1");
+            System.out.println("8. Find Average of Array 1");
+            System.out.println("9. Reverse Array 1");
+            System.out.println("10. Find Even Numbers in Array 1");
+            System.out.println("11. Find Odd Numbers in Array 1");
+            System.out.println("12. Find Prime Numbers in Array 1");
+            System.out.println("13. Find Distinct Numbers in Array 1");
+            System.out.println("14. Find Common Numbers between Array 1 and Array 2");
+            System.out.println("15. Search in Array 1");
+            System.out.println("16. Remove from Array 1");
+            System.out.println("17. Replace in Array 1");
+            System.out.println("0. Exit");
+
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.println("Enter a number to insert into Array 1:");
+                    array1.insert(scanner.nextInt());
+                    break;
+                case 2:
+                    System.out.println("Enter a number to insert into Array 2:");
+                    array2.insert(scanner.nextInt());
+                    break;
+                case 3:
+                    System.out.println("Array 1:");
+                    array1.printArray();
+                    break;
+                case 4:
+                    System.out.println("Array 2:");
+                    array2.printArray();
+                    break;
+                case 5:
+                    System.out.println("Max in Array 1:");
+                    array1.max();
+                    break;
+                case 6:
+                    System.out.println("Min in Array 1:");
+                    array1.min();
+                    break;
+                case 7:
+                    System.out.println("Product of Array 1:");
+                    array1.product();
+                    break;
+                case 8:
+                    System.out.println("Average of Array 1:");
+                    array1.average();
+                    break;
+                case 9:
+                    System.out.println("Reversing Array 1:");
+                    array1.reverse();
+                    array1.printArray();
+                    break;
+                case 10:
+                    System.out.println("Even numbers in Array 1:");
+                    array1.even();
+                    break;
+                case 11:
+                    System.out.println("Odd numbers in Array 1:");
+                    array1.odd();
+                    break;
+                case 12:
+                    System.out.println("Prime numbers in Array 1:");
+                    array1.prime();
+                    break;
+                case 13:
+                    System.out.println("Distinct numbers in Array 1:");
+                    array1.distinct();
+                    break;
+                case 14:
+                    System.out.println("Common numbers between Array 1 and Array 2:");
+                    array1.common_number(array2);
+                    break;
+                case 15:
+                    System.out.println("Enter an element to search in Array 1:");
+                    array1.search(scanner.nextInt());
+                    break;
+                case 16:
+                    System.out.println("Enter the index to remove from Array 1:");
+                    array1.remove(scanner.nextInt());
+                    break;
+                case 17:
+                    System.out.println("Enter the old value to replace:");
+                    Integer oldValue = scanner.nextInt();
+                    System.out.println("Enter the new value to replace with:");
+                    Integer newValue = scanner.nextInt();
+                    array1.replace(oldValue, newValue);
+                    System.out.println("Replacement complete.");
+                    break;
+                case 0:
+                    running = false;
+                    System.out.println("Exiting...");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
+        }
+        scanner.close();
+    }
+}
+
