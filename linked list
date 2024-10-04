@@ -1,24 +1,20 @@
-
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Stack;
-import java.util.Vector;
 class Node{
-    int data;
+    Integer data;
     Node next;
 }
 
 class Linkedlist{
     Node head;
-
-    public void insert(int data){
+    public void insert(Integer data){
         Node node = new Node();
         node.data = data;
-        if (head == null){
+
+        if(head == null){
             head = node;
-        }
-        else {
+        }else {
             Node n = head;
+
             while (n.next != null){
                 n = n.next;
             }
@@ -26,7 +22,7 @@ class Linkedlist{
         }
     }
 
-    public void addfirst(int data){
+    public void insertfirst(int data){
         Node node = new Node();
         node.data = data;
         node.next = head;
@@ -41,19 +37,16 @@ class Linkedlist{
     }
 
     public void deleteFirst(){
-        if(head != null) {
+        if(head != null){
             head = head.next;
         }
     }
 
     public void deleteLast(){
         if(head == null){
-            System.out.println("Linked list is empty");
-            return;
-
-        }else if(head.next == null){
+            System.out.println("List is empty");
+        } else if (head.next == null) {
             head = null;
-
         }else {
             Node current = head;
             while (current.next.next != null){
@@ -61,6 +54,66 @@ class Linkedlist{
             }
             current.next = null;
         }
+    }
+
+    public void insertMiddle(Integer data){
+        Node node = new Node();
+        node.data = data;
+        if(head == null){
+            head = node;
+            return;
+
+        } else if (head.next == null) {
+            node.next = head;
+            head = node;
+            return;
+        }
+
+        Integer steps = 0;
+        Node current = head;
+        while (current.next != null){
+            current = current.next;
+            steps++;
+        }
+
+        Integer middle_value = steps / 2;
+        Node previous = null;
+        current = head;
+        for (int i = 0; i <= middle_value; i++) {
+            previous = current;
+            current = current.next;
+        }
+
+        node.next = current;
+        if(previous != null){
+            previous.next = node;
+        }
+
+    }
+
+    public void deleteMiddle(){
+
+        if (head == null || head.next == null) {
+            head = null;
+            return;
+        }
+
+        Integer steps = 0;
+        Node current = head;
+        while (current != null){
+            current = current.next;
+            steps++;
+        }
+
+        Integer middle = steps / 2;
+
+        current = head;
+
+        for (int i = 1; i < middle; i++) {
+
+            current = current.next;
+        }
+        current.next = current.next.next;
     }
 
     public void deleteNthNodeFromEnd(Integer n){
@@ -93,18 +146,85 @@ class Linkedlist{
 
     }
 
+    public void max(){
+        if (head == null) {
+            System.out.println("The list is empty.");
+            return;
+        }
 
+        Node n = head;
+        int max = n.data;
+        while (n != null){
+            if(max < n.data){
+                max = n.data;
+            }
+            n = n.next;
+        }
+
+        System.out.println("The maximum value in the list is: " + max);
+    }
+
+    public void min(){
+        if (head == null) {
+            System.out.println("The list is empty.");
+            return;
+        }
+
+        Node n = head;
+        int min = n.data;
+        while (n != null){
+            if(min > n.data){
+                min = n.data;
+            }
+            n = n.next;
+        }
+
+        System.out.println("The minimum value in the list is: " + min);
+    }
+
+    public void search(Integer element){
+        int step = 0;
+        Node n = head;
+
+        while (n != null){
+            step++;
+            n = n.next;
+        }
+
+        Node current = head;
+        for (int i = 1; i <= step; i++) {
+            if(current.data == element){
+                System.out.println("The element is at position = " + i);
+            }
+            current = current.next;
+
+        }
+    }
+
+    public void deletelast(){
+        Node n = head;
+        if(head != null){
+            while (n.next.next != null){
+                n = n.next;
+            }
+            n.next = null;
+        }
+    }
 }
 public class Main {
     public static void main(String[] args) {
-        LinkedList<Integer> lis = new LinkedList<Integer>();
         Linkedlist list = new Linkedlist();
+        
         list.insert(1);
         list.insert(2);
         list.insert(3);
+        list.insert(4);
+        list.insert(5);
         // Printing the linked list
         list.printvalues();
-        list.deleteNthNodeFromEnd(3);
-        list.printvalues();
+        list.max();
+        list.min();
+        list.search(4);
+
     }
 }
