@@ -1,0 +1,29 @@
+import java.util.HashSet;
+
+class ArrayAndString{
+    public void longestSubString(String value) {
+        HashSet<Character> hashSet = new HashSet<>();
+
+        for (int i = 0; i < value.length(); i++) {
+            char currentChar = value.charAt(i);
+
+        if(hashSet.contains(currentChar)){
+            show(hashSet);
+            return;
+        }
+
+        hashSet.add(currentChar);
+        }
+    }
+
+    private void show(HashSet<Character> hashSet) {
+        System.out.println(hashSet);
+    }
+}
+
+public class Main{
+    public static void main(String[]args){
+    ArrayAndString arrayAndString = new ArrayAndString();
+    arrayAndString.longestSubString("abcdaavs;");
+    }
+}
