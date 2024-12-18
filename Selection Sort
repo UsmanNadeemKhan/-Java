@@ -1,0 +1,29 @@
+class Algorithms {
+    Integer[] array = {2, 5, 1, 10, 33};
+
+    public void sort() {
+        int temp1 = 0;
+        for (int i = 0; i < array.length - 1; i++) {
+            int minindex = i;
+            for (int j = i + 1; j < array.length; j++) {
+                if(array[j] < array[i]){
+                   minindex = j;
+                }
+            }
+            temp1 = array[minindex];
+            array[minindex] = array[i];
+            array[i] = temp1;
+        }
+
+        for (int n:array) {
+            System.out.print(n + " ");
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Algorithms algorithms = new Algorithms();
+        algorithms.sort();
+    }
+}
