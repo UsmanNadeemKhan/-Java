@@ -1,0 +1,191 @@
+
+class Node {
+    int data;
+    Node left, right;
+    public Node(int data) {
+        this.data = data;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+class BinaryTree {
+    Node root;
+
+    public void insert(int data) {
+            insertHelper(root, data);
+    }
+
+    public void insertHelper(Node node, int data) {
+
+        if (root == null) {
+            root = new Node(data);
+        }
+        else if(node.left == null) {
+            node.left = new Node(data);
+        } else if (node.right == null) {
+            node.right = new Node(data);
+        } else {
+            insertHelper(node.left, data);
+        }
+    }
+
+    public void inorder() {
+        inorderHelper(root);
+        System.out.println();
+    }
+
+    private void inorderHelper(Node node) {
+        if (node != null) {
+            inorderHelper(node.left);
+            System.out.print(node.data + " ");
+            inorderHelper(node.right);
+        }
+    }
+
+    public void preorder() {
+        preorderHelper(root);
+        System.out.println();
+    }
+
+    private void preorderHelper(Node node) {
+        if (node != null) {
+            System.out.print(node.data + " ");
+            preorderHelper(node.left);
+            preorderHelper(node.right);
+        }
+    }
+
+    public void postorder() {
+        postorderHelper(root);
+        System.out.println();
+    }
+
+    private void postorderHelper(Node node) {
+        if (node != null) {
+            postorderHelper(node.left);
+            postorderHelper(node.right);
+            System.out.print(node.data + " ");
+
+        }
+    }
+
+    public boolean find(int data) {
+        return findHelper(root, data);
+    }
+
+    private boolean findHelper(Node node, int data) {
+        if (node == null) {
+            return false;
+        }
+        if (node.data == data) {
+            return true;
+        }
+
+        return findHelper(node.left, data) || findHelper(node.right, data);
+    }
+
+    public int height() {
+        return heightHelper(root);
+    }
+
+    private int heightHelper(Node node) {
+        if (node == null) {
+            return -1;
+        }
+        int leftHeight = heightHelper(node.left);
+        int rightHeight = heightHelper(node.right);
+        return Math.max(leftHeight, rightHeight) + 1;
+    }
+
+    public int findMin() {
+        if (root == null) {
+            System.out.println("Tree is empty");
+            return -1;
+        }
+        return findMinHelper(root);
+    }
+
+    private int findMinHelper(Node node) {
+        if (node == null) {
+            return Integer.MAX_VALUE;
+        }
+        int min = node.data;
+        int leftMin = findMinHelper(node.left);
+        int rightMin = findMinHelper(node.right);
+
+        return Math.min(min, Math.min(leftMin, rightMin));
+    }
+
+    public int findMax() {
+        if (root == null) {
+            System.out.println("Tree is empty");
+            return -1;
+        }
+        return findMaxHelper(root);
+    }
+
+    private int findMaxHelper(Node node) {
+        if (node == null) {
+            return Integer.MIN_VALUE;
+        }
+        int max = node.data;
+        int leftMax = findMaxHelper(node.left);
+        int rightMax = findMaxHelper(node.right);
+
+        return Math.max(max, Math.max(leftMax, rightMax));
+    }
+
+    public boolean equals(BinaryTree other) {
+        return equalsHelper(this.root, other.root);
+    }
+
+    private boolean equalsHelper(Node node1, Node node2) {
+        if (node1 == null && node2 == null) {
+            return true;
+        }
+        if (node1 == null || node2 == null) {
+            return false;
+        }
+        return node1.data == node2.data && equalsHelper(node1.left, node2.left) && equalsHelper(node1.right, node2.right);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        BinaryTree tree = new BinaryTree();
+
+        tree.insert(1);
+        tree.insert(2);
+        tree.insert(3);
+        tree.insert(4);
+        tree.insert(5);
+        tree.insert(6);
+
+        System.out.println("Inorder traversal:");
+        tree.inorder();
+        System.out.println("Preorder traversal:");
+        tree.preorder();
+
+        System.out.println("Postorder traversal:");
+        tree.postorder();
+
+        System.out.println("Is 4 present in the tree? " + tree.find(4));
+        System.out.println("Is 7 present in the tree? " + tree.find(7));
+
+        System.out.println("Height of the tree: " + tree.height());
+
+        System.out.println("Minimum value in the tree: " + tree.findMin());
+        System.out.println("Maximum value in the tree: " + tree.findMax());
+
+        BinaryTree tree2 = new BinaryTree();
+        tree2.insert(1);
+        tree2.insert(2);
+        tree2.insert(3);
+        tree2.insert(4);
+        tree2.insert(5);
+        tree2.insert(6);
+
+        System.out.println("Are tree1 and tree2 equal? " + tree.equals(tree2));
+    }
+}
