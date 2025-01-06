@@ -1,0 +1,23 @@
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Integer[] num = {3,6,5,1};
+        for (int i = 1; i < num.length ; i++) {
+            Integer key = num[i] ;
+            Integer j = i - 1;
+
+            while (j >= 0 && num[j] > key){
+                num[j + 1] = num[j];
+                j--;
+            }
+
+            num[j + 1] = key;
+        }
+
+        for (int i = 0; i < num.length; i++) {
+            System.out.print(" " + num[i]);
+        }
+    }
+}
