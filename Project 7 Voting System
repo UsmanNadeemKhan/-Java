@@ -1,0 +1,268 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+class Voter {
+    private String name;
+    private Integer age;
+    private String cnic;
+    private String province;
+    private boolean hasVoted;
+
+    public Voter(String name, Integer age, String cnic, String province) {
+        this.name = name;
+        this.age = age;
+        this.cnic = cnic;
+        this.province = province;
+        this.hasVoted = false;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public String getCnic() {
+        return cnic;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public boolean hasVoted() {
+        return hasVoted;
+    }
+
+    public void castVote() {
+        this.hasVoted = true;
+    }
+}
+
+class Candidate {
+    private String name;
+    private String party;
+    private String position; // Federal or Provincial
+    private int voteCount;
+
+    public Candidate(String name, String party, String position) {
+        this.name = name;
+        this.party = party;
+        this.position = position;
+        this.voteCount = 0;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getParty() {
+        return party;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public int getVoteCount() {
+        return voteCount;
+    }
+
+    public void incrementVote() {
+        this.voteCount++;
+    }
+}
+
+class Election {
+    Scanner scanner = new Scanner(System.in);
+
+    ArrayList<Voter> arrayListVoter = new ArrayList<>();
+    ArrayList<Candidate> arrayListFederalCandidate = new ArrayList<>();
+    ArrayList<Candidate> arrayListProvincialCandidate = new ArrayList<>();
+
+    public void adminMenu() {
+        int choice;
+
+        do {
+            System.out.println("\nAdmin Menu:");
+            System.out.println("1. Register Voter");
+            System.out.println("2. Add Federal Candidate");
+            System.out.println("3. Add Provincial Candidate");
+            System.out.println("4. View Election Results");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Voter Name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Enter Voter Age: ");
+                    int age = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.print("Enter Voter CNIC: ");
+                    String cnic = scanner.nextLine();
+                    System.out.print("Enter Voter Province: ");
+                    String province = scanner.nextLine();
+                    registerVoter(name, age, cnic, province);
+                    break;
+                case 2:
+                    System.out.print("Enter Federal Candidate Name: ");
+                    String fName = scanner.nextLine();
+                    System.out.print("Enter Federal Candidate Party: ");
+                    String fParty = scanner.nextLine();
+                    addFederalCandidate(fName, fParty, "Federal");
+                    break;
+                case 3:
+                    System.out.print("Enter Provincial Candidate Name: ");
+                    String pName = scanner.nextLine();
+                    System.out.print("Enter Provincial Candidate Party: ");
+                    String pParty = scanner.nextLine();
+                    addProvincialCandidate(pName, pParty, "Provincial");
+                    break;
+                case 4:
+                    viewElectionResults();
+                    break;
+                case 5:
+                    System.out.println("Exiting Admin Menu.");
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        } while (choice != 5);
+    }
+
+    private void viewElectionResults() {
+        System.out.println("Election Results (Federal Candidates):");
+        for (Candidate candidate : arrayListFederalCandidate) {
+            System.out.println(candidate.getName() + " (" + candidate.getParty() + "): " + candidate.getVoteCount() + " votes");
+        }
+
+        System.out.println("\nElection Results (Provincial Candidates):");
+        for (Candidate candidate : arrayListProvincialCandidate) {
+            System.out.println(candidate.getName() + " (" + candidate.getParty() + "): " + candidate.getVoteCount() + " votes");
+        }
+    }
+
+
+    private void addProvincialCandidate(String pName, String pParty, String provincial) {
+        arrayListProvincialCandidate.add(new Candidate(pName, pParty, provincial));
+    }
+
+    private void addFederalCandidate(String name, String party, String federal) {
+        arrayListFederalCandidate.add(new Candidate(name, party, federal));
+    }
+
+    private void registerVoter(String name, int age, String cnic, String province) {
+        for (Voter voter : arrayListVoter) {
+            if (voter.getCnic().equals(cnic)) {
+
+                System.out.println("Voter is already registered");
+                return;
+            }
+        }
+        if (age >= 18 && cnic != null && !cnic.isEmpty()) {
+            arrayListVoter.add(new Voter(name, age, cnic, province));
+            System.out.println("Voter registered successfully");
+        } else {
+            System.out.println("Invalid age or CNIC");
+        }
+    }
+
+    public void castVote(String voterCnic) {
+        for (Voter voter : arrayListVoter) {
+            if (voter.getCnic().equals(voterCnic)) {
+                if (voter.hasVoted()) {
+                    System.out.println("You have already voted.");
+                    return;
+                }
+
+                if (arrayListFederalCandidate.isEmpty()) {
+                    System.out.println("No federal candidates available to vote.");
+                    return;
+                }
+                if (arrayListProvincialCandidate.isEmpty()) {
+                    System.out.println("No provincial candidates available to vote.");
+                    return;
+                }
+
+
+                System.out.println("List Federal Candidates:");
+                for (int i = 0; i < arrayListFederalCandidate.size(); i++) {
+                    System.out.println((i + 1) + ". " + arrayListFederalCandidate.get(i).getName() +
+                            " - " + arrayListFederalCandidate.get(i).getParty());
+                }
+
+                System.out.print("Select Federal Candidate (Enter number): ");
+                int federalChoice = scanner.nextInt() - 1;
+                scanner.nextLine();
+
+
+                System.out.println("List Provincial Candidates:");
+                for (int i = 0; i < arrayListProvincialCandidate.size(); i++) {
+                    System.out.println((i + 1) + ". " + arrayListProvincialCandidate.get(i).getName() +
+                            " - " + arrayListProvincialCandidate.get(i).getParty());
+                }
+
+                System.out.print("Select Provincial Candidate (Enter number): ");
+                int provincialChoice = scanner.nextInt() - 1;
+                scanner.nextLine();
+
+
+                if (federalChoice < 0 || federalChoice >= arrayListFederalCandidate.size()) {
+                    System.out.println("Invalid choice for federal candidate.");
+                    return;
+                }
+                if (provincialChoice < 0 || provincialChoice >= arrayListProvincialCandidate.size()) {
+                    System.out.println("Invalid choice for provincial candidate.");
+                    return;
+                }
+
+
+                arrayListFederalCandidate.get(federalChoice).incrementVote();
+                arrayListProvincialCandidate.get(provincialChoice).incrementVote();
+
+                voter.castVote();
+                System.out.println("Vote cast successfully!");
+                return;
+            }
+        }
+        System.out.println("Invalid CNIC. You are not registered to vote.");
+    }
+
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Election election = new Election();
+
+        while (true) {
+            System.out.println("\nMain Menu:");
+            System.out.println("1. Login as Admin");
+            System.out.println("2. Login as Voter");
+            System.out.println("3. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    election.adminMenu();
+                    break;
+                case 2:
+                    System.out.print("Enter your CNIC: ");
+                    String voterCnic = scanner.nextLine();
+                    election.castVote(voterCnic);
+                    break;
+                case 3:
+                    System.out.println("Exiting the system.");
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        }
+    }
+}
