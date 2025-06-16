@@ -1,0 +1,227 @@
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Scanner;
+
+class Student {
+    private String name;
+    private List<Double> grades;
+
+    public Student(String name) {
+        this.name = name;
+        this.grades = new ArrayList<>();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void addGrade(double grade) {
+        if (grade >= 0 && grade <= 100) {
+            grades.add(grade);
+        } else {
+            System.out.println("Invalid grade. Grade must be between 0 and 100.");
+        }
+    }
+
+    public List<Double> getGrades() {
+        return grades;
+    }
+
+    public double calculateAverageGrade() {
+        if (grades.isEmpty()) {
+            return 0.0;
+        }
+        double sum = 0;
+        for (double grade : grades) {
+            sum += grade;
+        }
+        return sum / grades.size();
+    }
+
+    public double findHighestGrade() {
+        if (grades.isEmpty()) {
+            return 0.0;
+        }
+        double maxGrade = grades.get(0);
+        for (double grade : grades) {
+            if (grade > maxGrade) {
+                maxGrade = grade;
+            }
+        }
+        return maxGrade;
+    }
+
+    public double findLowestGrade() {
+        if (grades.isEmpty()) {
+            return 0.0;
+        }
+        double minGrade = grades.get(0);
+        for (double grade : grades) {
+            if (grade < minGrade) {
+                minGrade = grade;
+            }
+        }
+        return minGrade;
+    }
+
+    public void displayStudentSummary() {
+        System.out.println("\n--- Student Summary: " + name + " ---");
+        if (grades.isEmpty()) {
+            System.out.println("No grades entered yet.");
+        } else {
+            System.out.println("Grades: " + grades);
+            System.out.printf("Average Grade: %.2f%n", calculateAverageGrade());
+            System.out.printf("Highest Grade: %.2f%n", findHighestGrade());
+            System.out.printf("Lowest Grade: %.2f%n", findLowestGrade());
+        }
+        System.out.println("----------------------------------");
+    }
+}
+
+public class GradeManager {
+    private List<Student> students;
+    private Scanner scanner;
+
+    public GradeManager() {
+        students = new ArrayList<>();
+        scanner = new Scanner(System.in);
+    }
+
+    public void addStudent() {
+        System.out.print("Enter student name: ");
+        String name = scanner.nextLine();
+        if (findStudent(name) != null) {
+            System.out.println("Student with name '" + name + "' already exists.");
+        } else {
+            students.add(new Student(name));
+            System.out.println("Student '" + name + "' added successfully.");
+        }
+    }
+
+    private Student findStudent(String name) {
+        for (Student student : students) {
+            if (student.getName().equalsIgnoreCase(name)) {
+                return student;
+            }
+        }
+        return null;
+    }
+
+    public void addGradesToStudent() {
+        System.out.print("Enter student name to add grades: ");
+        String name = scanner.nextLine();
+        Student student = findStudent(name);
+
+        if (student == null) {
+            System.out.println("Student '" + name + "' not found.");
+            return;
+        }
+
+        System.out.println("Adding grades for " + student.getName() + ". Enter -1 to finish.");
+        while (true) {
+            try {
+                System.out.print("Enter grade (0-100): ");
+                double grade = scanner.nextDouble();
+                scanner.nextLine();
+
+                if (grade == -1) {
+                    break;
+                }
+                if (grade >= 0 && grade <= 100) {
+                    student.addGrade(grade);
+                } else {
+                    System.out.println("Grade must be between 0 and 100.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a numeric grade.");
+                scanner.nextLine();
+            }
+        }
+        System.out.println("Grades added for " + student.getName() + ".");
+    }
+
+    public void displayStudentStats() {
+        System.out.print("Enter student name to view statistics: ");
+        String name = scanner.nextLine();
+        Student student = findStudent(name);
+
+        if (student == null) {
+            System.out.println("Student '" + name + "' not found.");
+        } else {
+            student.displayStudentSummary();
+        }
+    }
+
+    public void displayAllStudentsSummary() {
+        System.out.println("\n============ All Students Summary Report ============");
+        if (students.isEmpty()) {
+            System.out.println("No students registered yet.");
+        } else {
+            System.out.println("-----------------------------------------------------");
+            System.out.printf("%-20s %-10s %-10s %-10s%n", "Student Name", "Average", "Highest", "Lowest");
+            System.out.println("-----------------------------------------------------");
+            for (Student student : students) {
+                System.out.printf("%-20s %-10.2f %-10.2f %-10.2f%n",
+                        student.getName(),
+                        student.calculateAverageGrade(),
+                        student.findHighestGrade(),
+                        student.findLowestGrade());
+            }
+            System.out.println("-----------------------------------------------------");
+        }
+        System.out.println("=====================================================\n");
+    }
+
+    private void displayMenu() {
+        System.out.println("\n--- Student Grade Management System ---");
+        System.out.println("1. Add New Student");
+        System.out.println("2. Add Grades to Student");
+        System.out.println("3. View Student Statistics");
+        System.out.println("4. View All Students Summary");
+        System.out.println("5. Exit");
+        System.out.print("Enter your choice: ");
+    }
+
+    public void run() {
+        int choice;
+        do {
+            displayMenu();
+            try {
+                choice = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (choice) {
+                    case 1:
+                        addStudent();
+                        break;
+                    case 2:
+                        addGradesToStudent();
+                        break;
+                    case 3:
+                        displayStudentStats();
+                        break;
+                    case 4:
+                        displayAllStudentsSummary();
+                        break;
+                    case 5:
+                        System.out.println("Exiting application. Goodbye!");
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please enter a number between 1 and 5.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number.");
+                scanner.nextLine();
+                choice = 0;
+            }
+        } while (choice != 5);
+
+        scanner.close();
+    }
+
+    public static void main(String[] args) {
+        GradeManager manager = new GradeManager();
+        manager.run();
+    }
+}
